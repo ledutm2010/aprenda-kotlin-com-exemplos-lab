@@ -1,21 +1,45 @@
-// [Template no Kotlin Playground](https://pl.kotl.in/WcteahpyN)
+enum class Nivel { BASICO, INTERMEDIARIO, AVANCADO }
 
-enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
+data class Usuario(var nome: String, var idade: Int, var sexo: String)
 
-class Usuario
+data class ConteudoEducacional(val disciplina: String, var duracao: Int, var nivel: Nivel)
 
-data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
-
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
+data class Formacao(val curso: String, var conteudos: List<ConteudoEducacional>) {
 
     val inscritos = mutableListOf<Usuario>()
     
-    fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+    fun matricular(vararg usuarios: Usuario) {
+        for (usuario in usuarios){
+            inscritos.add(usuario)
+        }
     }
 }
 
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+    var maria = Usuario("Maria", 28, "F")
+    var antonia = Usuario("Antonia", 23, "F")
+    var jose = Usuario("Jose", 33, "M")
+    var raimundo = Usuario("Raimundo", 40, "M")
+    
+    var matematica = ConteudoEducacional("Matematica", 300, Nivel.AVANCADO)
+    var portugues = ConteudoEducacional("Portugues", 230, Nivel.INTERMEDIARIO)
+    var ingles = ConteudoEducacional("Ingles", 100, Nivel.BASICO)
+    var fisica = ConteudoEducacional("Fisica", 150, Nivel.INTERMEDIARIO)
+    var quimica = ConteudoEducacional("Quimica", 350, Nivel.AVANCADO)
+    
+    val conteudoBasico = mutableListOf<ConteudoEducacional>(ingles)
+    val conteudoIntermediario = mutableListOf<ConteudoEducacional>(portugues, fisica)
+    val conteudoAvancado = mutableListOf<ConteudoEducacional>(matematica, quimica)
+    
+    var formacaoBasica = Formacao("Curso Basico", conteudoBasico)
+    var formacaoIntermediaria = Formacao("Curso Intermediario", conteudoIntermediario)
+    var formacaoAvancada = Formacao("Curso Avancado", conteudoAvancado)
+    
+    formacaoBasica.matricular(maria, raimundo)
+    formacaoIntermediaria.matricular(jose)
+    formacaoAvancada.matricular(antonia, raimundo, jose)
+    
+    println(formacaoBasica.inscritos)
+    println(formacaoIntermediaria.inscritos)
+    println(formacaoAvancada.inscritos)
 }
